@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: dbt_project
+    database: bigquery-dbt-project-500800
+    schema: dbt_project
+    tables:
+      - name: raw_sales
+      - name: raw_customers
+      - name: raw_products
+      
