@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: stg_sales
+    description: "Cleaned and typed sales transactions from raw_sales"
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Foreign key to stg_customers"
+        data_tests:
+          - not_null
+      - name: product_id
+        description: "Foreign key to stg_products"
+        data_tests:
+          - not_null
+      - name: order_date
+        description: "Date the order was placed"
+        data_tests:
+          - not_null
+      - name: quantity
+        description: "Number of units ordered"
+        data_tests:
+          - not_null
+      - name: amount
+        description: "Total amount paid for the order"
+        data_tests:
+          - not_null
+      - name: payment_method
+        description: "Payment method used"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['credit_card', 'paypal', 'debit_card', 'bank_transfer']
+
+  - name: stg_customers
+    description: "Cleaned customer data from raw_customers"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: "Full name of the customer"
+        data_tests:
+          - not_null
+      - name: email
+        description: "Customer email address"
+        data_tests:
+          - unique
+          - not_null
+      - name: region
+        description: "Geographic region of the customer"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['North', 'South', 'East', 'West']
+      - name: signup_date
+        description: "Date the customer signed up"
+        data_tests:
+          - not_null
+
+  - name: stg_products
+    description: "Cleaned product data from raw_products"
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product"
+        data_tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Name of the product"
+        data_tests:
+          - not_null
+      - name: category
+        description: "Product category"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Electronics', 'Clothing', 'Food', 'Sports', 'Books']
+      - name: cost_price
+        description: "Cost price of the product"
+        data_tests:
+          - not_null
