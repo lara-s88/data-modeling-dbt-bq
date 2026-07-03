@@ -1,0 +1,58 @@
+name: dbt CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dbt-run-and-test:
+    name: Run and Test dbt Models
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dbt-bigquery
+        run: |
+          pip install dbt-bigquery
+          pip install --upgrade --no-deps "mashumaro>=3.17"
+
+      - name: Set up GCP credentials
+        run: |
+          echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > /tmp/bq-key.json
+
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << EOF
+          sales_analytics:
+            target: dev
+            outputs:
+              dev:
+                type: bigquery
+                method: service-account
+                project: bigquery-dbt-project-500800
+                dataset: dbt_project
+                threads: 4
+                keyfile: /tmp/bq-key.json
+                location: EU
+                job_execution_timeout_seconds: 300
+          EOF
+
+      - name: Run dbt models
+        working-directory: sales_analytics
+        run: dbt run
+
+      - name: Run dbt tests
+        working-directory: sales_analytics
+        run: dbt test
