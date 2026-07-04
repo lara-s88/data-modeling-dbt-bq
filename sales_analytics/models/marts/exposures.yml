@@ -1,0 +1,21 @@
+version: 2
+
+exposures:
+  - name: sales_dashboard
+    label: Sales Performance Dashboard
+    type: dashboard
+    maturity: high
+    url: https://app.powerbi.com
+    description: >
+      Power BI dashboard showing sales performance, revenue trends,
+      profit analysis, customer segmentation, and product category
+      breakdown. Built on top of the dbt marts layer.
+
+    depends_on:
+      - ref('fact_sales')
+      - ref('dim_customer')
+      - ref('dim_product')
+
+    owner:
+      name: DEPI Data Engineering Team
+      email: team@project.com
