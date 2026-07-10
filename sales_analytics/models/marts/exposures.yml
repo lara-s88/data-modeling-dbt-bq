@@ -5,8 +5,7 @@ exposures:
     label: Sales Performance Dashboard
     type: dashboard
     maturity: high
-    url: https://app.powerbi.com
-    description: >
+    url: https://app.powerbi.com/groups/me/reports/823f3d8f-947b-443b-91e8-61afe41a1d5d/f50b124c789a69df8cfd?ctid=0bc92751-071a-4e2c-a48b-633206fef374&experience=power-bi
       Power BI dashboard showing sales performance, revenue trends,
       profit analysis, customer segmentation, and product category
       breakdown. Built on top of the dbt marts layer.
